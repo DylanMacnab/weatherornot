@@ -30,10 +30,6 @@ p {
   padding-left: 5px;
 }
 
-img {
-  margin-top: 20px;
-}
-
 button {
   text-transform: uppercase;
   padding: 10px 20px;
@@ -55,6 +51,11 @@ form {
 
 form ::placeholder {
   color: var(--med-grey);
+}
+
+
+:root {
+  --gutter: 20px;
 }
 
 
@@ -149,37 +150,43 @@ form:focus-within {
 }
 
 
-
-
-
-.weather h2 {
-  position: relative;
-  padding: 5px;
-}
-
-.container {
-  max-width: 900px;
-  margin: auto;
-  visibility: hidden;
-}
-
-.weather h2 {
-  font-size: 18px;
-  line-height: 0.78;
-  text-align: left;
-  color: #4a4a4a;
-}
+/* WEATHER CARD */
 
 .weather {
-  width: 200px;
-  height: 300px;
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  grid-column-gap: var(--gutter);
+  margin-bottom: 20px;
+}
+
+.weather-card {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
 }
 
-.weathericon {
-  width: 200px;
-  height: 200px;
+.weather-day {
+  text-align: center;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
+
+.weather-icon {
+  margin: 20px auto;
+  width: 75px;
+  height: 75px;
+}
+
+
+
+.container {
+  max-width: 900px;
+  margin: 20px auto;
+  visibility: hidden;
+}
+
 
 .venue {
   width: 275px;
@@ -227,13 +234,6 @@ form:focus-within {
   justify-content: space-around;
   min-height: 500px;
 }
-
-#weather {
-  display: flex;
-  justify-content: space-around;
-  min-height: 350px;
-}
-
 
 
 @media (max-width: 860px) {

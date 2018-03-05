@@ -80,8 +80,8 @@ function renderForecast(days) {
       '<h2> High: ' + days[index].day.maxtemp_f + '</h2>' +
       '<h2> Low: ' + days[index].day.mintemp_f + '</h2>' +
       '<img src="http://' + days[index].day.condition.icon +
-      '" class="weathericon" />' +
-      '<h2>' + weekDays[(new Date(days[index].date)).getDay()] + '</h2>';
+      '" class="weather-icon" />' +
+      '<h2 class="weather-day">' + weekDays[(new Date(days[index].date)).getDay()] + '</h2>';
     $day.append(weatherContent);
   });
 }
