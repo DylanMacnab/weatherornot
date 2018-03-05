@@ -4,6 +4,7 @@
 
 body {
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+  font-size: 16px;
 }
 
 h1 {
@@ -49,6 +50,11 @@ form {
   padding: 0;
   margin: 0;
   border: none;
+  font-size: 16px;
+}
+
+form ::placeholder {
+  color: var(--med-grey);
 }
 
 
@@ -127,6 +133,8 @@ main h1 {
 .search-box form {
   background: var(--light-grey);
   padding: 4px 5px;
+  box-shadow: 0px 3px 5px rgba(0,0,0,.3);
+  transition: var(--trans);
 }
 
 .search-box input:active,
@@ -135,6 +143,10 @@ main h1 {
   transition: var(--trans);
 }
 
+form:focus-within {
+  background: var(--white);
+  box-shadow: 0px 5px 10px rgba(0,0,0,.5);
+}
 
 
 
