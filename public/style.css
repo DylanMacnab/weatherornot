@@ -112,6 +112,13 @@ main h1 {
   margin: 20px auto;
 }
 
+.search-box .icon {
+  height: 20px;
+  width: 20px;
+  opacity: .2;
+  margin-left: 5px;
+}
+
 .search-box input {
   height: 40px;
   min-width: 350px;
@@ -136,6 +143,8 @@ main h1 {
 }
 
 .search-box form {
+  display: flex;
+  align-items: center;
   background: var(--light-grey);
   padding: 4px 5px;
   box-shadow: 0px 3px 5px rgba(0,0,0,.3);
@@ -190,7 +199,6 @@ form:focus-within {
   margin: 20px auto;
   visibility: hidden;
 }
-
 
 .venue {
   width: 275px;
