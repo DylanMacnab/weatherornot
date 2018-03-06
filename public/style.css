@@ -10,7 +10,7 @@ body {
 h1 {
   font-size: 30px;
   font-weight: bold;
-  letter-spacing: 1.1px;
+  letter-spacing: var(--letterspacing-sm);
   text-align: center;
 }
 
@@ -35,7 +35,7 @@ button {
   padding: 10px 20px;
   outline: none;
   font-weight: bold;
-  letter-spacing: 1px;
+  letter-spacing: var(--letterspacing-sm);
 }
 
 footer {
@@ -59,6 +59,15 @@ form ::placeholder {
 :root {
   --gutter: 20px;
   --brand-color: #27b7c1;
+  --letterspacing-sm: 1px;
+  --letterspacing-md: 3px;
+  --letterspacing-lg: 5px;
+  --white: #fff;
+  --light-grey: #f5f5f5;
+  --med-grey: #aaa;
+  --dark-grey: #555;
+  --test-pink: pink;
+  --trans: .3s;
 }
 
 
@@ -74,10 +83,23 @@ header {
 .logo {
   font-size: 12px;
   text-transform: uppercase;
-  letter-spacing: 5px;
+  letter-spacing: var(--letterspacing-lg);
   color: var(--brand-color);
 }
 
+
+/* TYPE */
+.section-title {
+  font-weight: normal;
+  letter-spacing: var(--letterspacing-md);
+  color: var(--med-grey);
+  text-transform: uppercase;
+}
+
+/* LAYOUT */
+.row {
+  margin: 20px auto 60px;
+}
 
 /* HERO */
 
@@ -98,13 +120,6 @@ main h1 {
 /* SEARCH BOX */
 
 .search-box {
-  --white: #fff;
-  --light-grey: #f5f5f5;
-  --med-grey: #aaa;
-  --dark-grey: #555;
-  --test-pink: pink;
-  --trans: .3s;
-
   display: flex;
   justify-content: center;
   color: #444;
@@ -169,7 +184,6 @@ form:focus-within {
   display: grid;
   grid-template-columns: 25% 25% 25% 25%;
   grid-column-gap: var(--gutter);
-  margin-bottom: 20px;
 }
 
 .weather-card {
@@ -183,7 +197,7 @@ form:focus-within {
   text-align: center;
   font-size: 14px;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: var(--letterspacing-sm);
 }
 
 .weather-icon {
@@ -222,23 +236,9 @@ form:focus-within {
 #destination {
   font-size: 30px;
   font-weight: 600;
-  letter-spacing: 0.9px;
+  letter-spacing: var(--letterspacing-sm);
   text-align: left;
   color: #27b7c1;
-}
-
-.sectiontitle {
-  height: 70px;
-  width: 300px;
-  align-items: center;
-}
-
-.sectiontitle h2 {
-  font-size: 22px;
-  font-weight: 300;
-  letter-spacing: 3.4px;
-  text-align: left;
-  color: #4a4a4a;
 }
 
 #venues {
