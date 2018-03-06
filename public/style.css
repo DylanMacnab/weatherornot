@@ -34,6 +34,8 @@ button {
   text-transform: uppercase;
   padding: 10px 20px;
   outline: none;
+  font-weight: bold;
+  letter-spacing: 1px;
 }
 
 footer {
@@ -56,6 +58,7 @@ form ::placeholder {
 
 :root {
   --gutter: 20px;
+  --brand-color: #27b7c1;
 }
 
 
@@ -72,6 +75,7 @@ header {
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 5px;
+  color: var(--brand-color);
 }
 
 
@@ -118,17 +122,17 @@ main h1 {
 }
 
 .search-box button {
-  border: 1px solid var(--med-grey);
+  border: 1px solid var(--brand-color);
   background: #fff;
-  color: var(--med-grey);
+  color: var(--brand-color);
   transition: var(--trans);
   height: 100%;
 }
 
 .search-box button:hover {
   cursor: pointer;
-  border: 1px solid var(--dark-grey);
-  color: var(--dark-grey);
+  background: var(--brand-color);
+  color: var(--white);
 }
 
 .search-box form {
