@@ -68,6 +68,8 @@ form ::placeholder {
   --dark-grey: #555;
   --test-pink: pink;
   --trans: .3s;
+  --shadow-1: 0px 2px 5px rgba(0,0,0,.3);
+  --shadow-2: 0px 5px 10px rgba(0,0,0,.5);
 }
 
 
@@ -92,7 +94,7 @@ header {
 .section-title {
   font-weight: normal;
   letter-spacing: var(--letterspacing-md);
-  color: var(--med-grey);
+  color: var(--dark-grey);
   text-transform: uppercase;
 }
 
@@ -111,6 +113,7 @@ main {
   background-image: url('../assets/hero-bg-rain.jpg');
   background-size: cover;
   text-align: center;
+  border-bottom: 5px solid var(--brand-color);
 }
 
 main h1 {
@@ -141,6 +144,7 @@ main h1 {
   background: none;
   border: none;
   padding-left: 10px;
+  font-size: 1rem;
 }
 
 .search-box button {
@@ -162,7 +166,7 @@ main h1 {
   align-items: center;
   background: var(--light-grey);
   padding: 4px 5px;
-  box-shadow: 0px 3px 5px rgba(0,0,0,.3);
+  box-shadow: var(--shadow-1);
   transition: var(--trans);
 }
 
@@ -174,7 +178,7 @@ main h1 {
 
 form:focus-within {
   background: var(--white);
-  box-shadow: 0px 5px 10px rgba(0,0,0,.5);
+  box-shadow: var(--shadow-2);
 }
 
 
@@ -182,7 +186,7 @@ form:focus-within {
 
 .weather {
   display: grid;
-  grid-template-columns: repeat(7, 14.28%);
+  grid-template-columns: repeat(7, 1fr);
   grid-column-gap: var(--gutter);
 }
 
@@ -190,7 +194,7 @@ form:focus-within {
   display: flex;
   flex-direction: column;
   padding: 20px;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+  box-shadow: var(--shadow-1);
 }
 
 .weather-day {
@@ -199,6 +203,7 @@ form:focus-within {
   text-transform: uppercase;
   letter-spacing: var(--letterspacing-sm);
   font-weight: bold;
+  color: var(--dark-grey);
 }
 
 .weather-icon {
@@ -233,7 +238,7 @@ form:focus-within {
 .venue {
   width: 275px;
   height: 500px;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+  box-shadow: var(--shadow-1);
 }
 
 .venueimg {
@@ -261,26 +266,4 @@ form:focus-within {
   display: flex;
   justify-content: space-around;
   min-height: 500px;
-}
-
-
-@media (max-width: 860px) {
-
-  #venues, #weather {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .venue, .weather {
-    margin: 10px auto;
-    display: flex;
-    flex-direction: column;
-    width: 95%;
-    align-items: center;
-  }
-
-  .sectiontitle, .sectiontitle h2, #destination {
-    margin: auto;
-    text-align: center;
-  }
 }
