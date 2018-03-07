@@ -14,13 +14,13 @@ const $submit = $('#button');
 const $destination = $('#destination');
 const $container = $('.container');
 const $venueDivs = [$("#venue1"), $("#venue2"), $("#venue3"), $("#venue4")];
-const $weatherDivs = [$("#weather1"), $("#weather2"), $("#weather3"), $("#weather4")];
-const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const $weatherDivs = [$("#weather1"), $("#weather2"), $("#weather3"), $("#weather4"), $("#weather5"), $("#weather6"), $("#weather7")];
+const weekDays = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 
 // AJAX functions
 async function getVenues() {
   const city = $input.val();
-  const urlToFetch = url + city + '&venuePhotos=1&limit=10&client_id=' + clientId + '&client_secret=' + clientSecret + '&v=20180229';
+  const urlToFetch = url + city + '&venuePhotos=1&limit=10&client_id=' + clientId + '&client_secret=' + clientSecret + '&v=20180306';
 
   try {
     let response = await fetch(urlToFetch);
@@ -40,7 +40,7 @@ async function getVenues() {
 };
 
 async function getForecast() {
-  const urlToFetch = forecastUrl + apiKey + '&q=' + $input.val() + '&days=4&hour=11';
+  const urlToFetch = forecastUrl + apiKey + '&q=' + $input.val() + '&days=7&hour=12';
 	console.log(urlToFetch);
   try {
     let response = await fetch(urlToFetch);
@@ -75,14 +75,17 @@ function renderVenues(venues) {
 }
 
 function renderForecast(days) {
+  console.log("days comin up");
+  console.log(days);
   $weatherDivs.forEach(($day, index) => {
     let weatherContent =
-      '<h2> High: ' + days[index].day.maxtemp_f + '</h2>' +
-      '<h2> Low: ' + days[index].day.mintemp_f + '</h2>' +
-      '<img src="http://' + days[index].day.condition.icon +
-      '" class="weather-icon" />' +
-      '<h2 class="weather-day">' + weekDays[(new Date(days[index].date)).getDay()] + '</h2>';
-    $day.append(weatherContent);
+      '<h2 class="weather-day">' + weekDays[(new Date(days[index].date)).getDay()] + '</h2>' +
+      '<img src="http://' + days[index].day.condition.icon + '" class="weather-icon" />' +
+      '<div class="weather-temps">' +
+      '<h2 class="high">' + days[index].day.maxtemp_f + '</h2>' +
+      '<h2 class="low">' + days[index].day.mintemp_f + '</h2>' +
+      '</div>';
+      $day.append(weatherContent);
   });
 }
 

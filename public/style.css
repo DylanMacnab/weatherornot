@@ -182,7 +182,7 @@ form:focus-within {
 
 .weather {
   display: grid;
-  grid-template-columns: 25% 25% 25% 25%;
+  grid-template-columns: repeat(7, 14.28%);
   grid-column-gap: var(--gutter);
 }
 
@@ -195,15 +195,31 @@ form:focus-within {
 
 .weather-day {
   text-align: center;
-  font-size: 14px;
+  font-size: .8rem;
   text-transform: uppercase;
   letter-spacing: var(--letterspacing-sm);
+  font-weight: bold;
 }
 
 .weather-icon {
   margin: 20px auto;
-  width: 75px;
-  height: 75px;
+  width: 60px;
+  height: 60px;
+}
+
+.weather-temps {
+  display: flex;
+  justify-content: space-between;
+}
+
+.weather-temps .low {
+  font-size: 1rem;
+  color: var(--med-grey);
+}
+
+.weather-temps .high {
+  font-size: 1rem;
+  color: var(--dark-grey);
 }
 
 
