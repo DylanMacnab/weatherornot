@@ -82,8 +82,8 @@ function renderForecast(days) {
       '<h2 class="weather-day">' + weekDays[(new Date(days[index].date)).getDay()] + '</h2>' +
       '<img src="http://' + days[index].day.condition.icon + '" class="weather-icon" />' +
       '<div class="weather-temps">' +
-      '<h2 class="high">' + days[index].day.maxtemp_f + '</h2>' +
-      '<h2 class="low">' + days[index].day.mintemp_f + '</h2>' +
+      '<h2 class="high">' + Math.round(days[index].day.maxtemp_f) + '</h2>' +
+      '<h2 class="low">' + Math.round(days[index].day.mintemp_f) + '</h2>' +
       '</div>';
       $day.append(weatherContent);
   });
