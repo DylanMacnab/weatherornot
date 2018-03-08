@@ -229,29 +229,40 @@ form:focus-within {
 
 
 
+/* Venues */
+.venues {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-column-gap: var(--gutter);
+}
+
+.venue {
+  box-shadow: var(--shadow-1);
+}
+
+.venue-img {
+  width: 100%;
+  max-width: 100%;
+}
+
+.venue-details {
+  padding: 20px;
+}
+
+.venue-name {
+  text-align: center;
+  font-size: .8rem;
+  text-transform: uppercase;
+  letter-spacing: var(--letterspacing-sm);
+  font-weight: bold;
+  color: var(--dark-grey);
+  margin-bottom: 20px;
+}
+
 .container {
   max-width: 900px;
   margin: 20px auto;
   visibility: hidden;
-}
-
-.venue {
-  width: 275px;
-  height: 500px;
-  box-shadow: var(--shadow-1);
-}
-
-.venueimg {
-  width: 200px;
-  height: 300px;
-}
-
-#venues h2 {
-  font-size: 22px;
-  font-weight: 600;
-  line-height: 0.77;
-  text-align: center;
-  padding-top: 5px;
 }
 
 #destination {
@@ -262,8 +273,3 @@ form:focus-within {
   color: #27b7c1;
 }
 
-#venues {
-  display: flex;
-  justify-content: space-around;
-  min-height: 500px;
-}
