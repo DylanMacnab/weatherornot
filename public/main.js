@@ -1,16 +1,15 @@
-// Foursquare API Info
-const clientId = 'E0KX0H4VRVGAFXFXGI2RK2M4QWJ5T1CIPO1WPECNOZQL12VW';
-const clientSecret = 'TMUH4GEYEXXUMF4444C1GR0JKDOIHJZ0GYDTFK5JI0U4IYYR';
-const url = 'https://api.foursquare.com/v2/venues/explore?near=';
-const imgPrefix = 'https://igx.4sqi.net/img/general/150x200';
-
+// **************************************
 // APIXU Info
+// **************************************
+
 const apiKey = 'f0e5ebc0c2354f20bc761611180103';
 const forecastUrl = 'https://api.apixu.com/v1/forecast.json?key=';
 const currentUrl = 'https://api.apixu.com/v1/forecast.json?key=';
 
-
+// **************************************
 // Page Elements
+// **************************************
+
 const $input = $('#city');
 const $submit = $('#button');
 const $destination = $('#destination');
@@ -20,26 +19,10 @@ const $weatherDivs = [$("#weather1"), $("#weather2"), $("#weather3"), $("#weathe
 const weekDays = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 const $currentWeather = $('#current');
 
+
+// **************************************
 // AJAX functions
-
-// Get 4 Closest Venues
-async function getVenues() {
-  const city = $input.val();
-  const urlToFetch = url + city + '&venuePhotos=1&limit=10&client_id=' + clientId + '&client_secret=' + clientSecret + '&v=20180311';
-
-  try {
-    let response = await fetch(urlToFetch);
-    if (response.ok) {
-      let jsonResponse = await response.json();
-   		let venues = jsonResponse.response.groups[0].items.map(location => location.venue);
-			return venues;
-    }
-  }
-  catch(error) {
-    console.log(error);
-  }
-
-};
+// **************************************
 
 // Get Current Weather Conditions
 async function getCurrentForecast() {
@@ -49,15 +32,14 @@ async function getCurrentForecast() {
     let response = await fetch(urlToFetch);
     if (response.ok) {
       let jsonResponse = await response.json();
-      let current = jsonResponse;
-      return current;
+      let location = jsonResponse;
+      return location;
     }
   }
   catch(error) {
     console.log("error requesting current forecast")
   }
 }
-
 
 // Get 7 Day Forecast
 async function getForecast() {
@@ -79,20 +61,12 @@ async function getForecast() {
 };
 
 
+// **************************************
 // Render functions
-function renderVenues(venues) {
-  $venueDivs.forEach(($venue, index) => {
-    let venueContent =
-      '<img class="venue-img" src="' + imgPrefix +
-      venues[index].photos.groups[0].items[0].suffix + '"/>' +
-      '<div class="venue-details"> <h2 class="venue-name">' + venues[index].name + '</h2>' +
-      '<h3>Address:</h3>' +
-      '<p>' + venues[index].location.address + '</p>' +
-      '<p>' + venues[index].location.city + '</p>' +
-      '<p>' + venues[index].location.country + '</p></div>';
-    $venue.append(venueContent);
-  });
-  $destination.append('<h2>' + venues[0].location.city + '</h2>');
+// **************************************
+
+function renderLocation(location) {
+  $destination.append(`<h2 class="location-heading">${location.location.name}<br><span class="location-subheading">${location.location.region}<span></h2>`);
 }
 
 function renderForecast(days) {
@@ -108,18 +82,17 @@ function renderForecast(days) {
   });
 }
 
-function renderCurrent(current) {
+function renderCurrent(location) {
   let currentContent =
   `<div class="current-weather">
-    <h2>Currently:</h2>
-    <img src="http://${current.current.condition.icon}">
+    <img src="http://${location.current.condition.icon}">
     <p>
-      Description: ${current.current.condition.text} <br>
-      Temp: ${current.current.temp_f} <br>
-      Wind: ${current.current.wind_mph} <br>
-      High: ${current.forecast.forecastday[0].maxtemp_f} <br>
-      Low: ${current.forecast.forecastday[0].mintemp_f} <br>
-      Rain: ${current.forecast.forecastday[0].day.totalprecip_mm} <br>
+      Description: ${location.current.condition.text} <br>
+      Temp: ${location.current.temp_f} <br>
+      Wind: ${location.current.wind_mph} <br>
+      High: ${location.forecast.forecastday[0].maxtemp_f} <br>
+      Low: ${location.forecast.forecastday[0].mintemp_f} <br>
+      Rain: ${location.forecast.forecastday[0].day.totalprecip_mm} <br>
     </p>
   </div>`;
   $currentWeather.append(currentContent);
@@ -129,15 +102,14 @@ function executeSearch() {
   $venueDivs.forEach(venue => venue.empty());
   $weatherDivs.forEach(day => day.empty());
   $destination.empty();
+  $currentWeather.empty();
   $container.css("visibility", "visible");
-  getVenues().then(venues => {
-    renderVenues(venues);
-  });
   getForecast().then(days => {
     renderForecast(days);
   });
-  getCurrentForecast().then(current => {
-    renderCurrent(current);
+  getCurrentForecast().then(location => {
+    renderLocation(location);
+    renderCurrent(location);
   });
   return false;
 }
