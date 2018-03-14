@@ -5,6 +5,7 @@
 const apiKey = 'f0e5ebc0c2354f20bc761611180103';
 const forecastUrl = 'https://api.apixu.com/v1/forecast.json?key=';
 const currentUrl = 'https://api.apixu.com/v1/forecast.json?key=';
+const searchUrl = 'http://api.apixu.com/v1/search.json?key=';
 
 // **************************************
 // Page Elements
@@ -24,10 +25,27 @@ const $currentWeather = $('#current');
 // AJAX functions
 // **************************************
 
+// Get Search Results
+async function getSearchSuggestions() {
+  // example url: http://api.apixu.com/v1/search.json?key=<YOUR_API_KEY>&q=lond
+  const urlToFetch = searchUrl + apiKey + '&q=' + $input.val();
+  try {
+    let response = await fetch(urlToFetch);
+    if (response.ok) {
+      let jsonResponse = await response.json();
+      console.log(jsonResponse);
+      let searchResults = jsonResponse;
+      return searchResults;
+    }
+  }
+  catch(error) {
+    console.log('search error:' + error);
+  }
+}
+
 // Get Current Weather Conditions
 async function getCurrentForecast() {
   const urlToFetch = currentUrl + apiKey + '&q=' + $input.val();
-  console.log("Current Forecast URL " + urlToFetch);
   try {
     let response = await fetch(urlToFetch);
     if (response.ok) {
@@ -37,26 +55,23 @@ async function getCurrentForecast() {
     }
   }
   catch(error) {
-    console.log("error requesting current forecast")
+    console.log('current weather error:' + error);
   }
 }
 
 // Get 7 Day Forecast
 async function getForecast() {
   const urlToFetch = forecastUrl + apiKey + '&q=' + $input.val() + '&days=7';
-	//console.log(urlToFetch);
   try {
     let response = await fetch(urlToFetch);
     if (response.ok) {
       let jsonResponse = await response.json();
-      console.log(jsonResponse);
       let days = jsonResponse.forecast.forecastday;
-      //console.log(days);
       return days;
     }
 	}
   catch(error) {
-    console.log(error)
+    console.log('forecast error:' + error);
   }
 };
 
@@ -113,5 +128,9 @@ function executeSearch() {
   });
   return false;
 }
+
+$input.on('input', function() {
+  getSearchSuggestions();
+});
 
 $submit.click(executeSearch);
