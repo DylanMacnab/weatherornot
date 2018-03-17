@@ -9,17 +9,6 @@ Simple practice app retrieving weather and attractions data from the APIXU and F
 - remove jQuery
 - use react or vue to build UI
 - add a predictive search using search.json
-
-
-
-// Notes:
-
-As a user I would like to be able to check the current forecast to find this information:
-
-- Chance of Rain
-- Current Temperature
-- Expected high and low
-- Clothing tip
-- Historical weather info:
-  - Record High
-  - Record Low
+- tips for weather advisory / warnings
+- auto detect location if allowed
+- set cookie to remember location details
