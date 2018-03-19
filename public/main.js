@@ -19,7 +19,7 @@ const $venueDivs = [$("#venue1"), $("#venue2"), $("#venue3"), $("#venue4")];
 const $weatherDivs = [$("#weather1"), $("#weather2"), $("#weather3"), $("#weather4"), $("#weather5"), $("#weather6"), $("#weather7")];
 const weekDays = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 const $currentWeather = $('#current');
-
+const $outfit = $('#outfit');
 
 // **************************************
 // AJAX functions
@@ -51,6 +51,7 @@ async function getCurrentForecast() {
     if (response.ok) {
       let jsonResponse = await response.json();
       let location = jsonResponse;
+      console.log(location);
       return location;
     }
   }
@@ -113,6 +114,23 @@ function renderCurrent(location) {
   $currentWeather.append(currentContent);
 }
 
+function renderOutfit(location) {
+  let isRaining = location.current.condition.precip_in > 1;
+  console.log(isRaining);
+  let top;
+  if (isRaining) {
+    top = "Raincoat!";
+  } else {
+    top = "No raincoat."
+  }
+  let outfitContent =
+  `<div class="outfit">
+    <span class="outfit-jacket">${top}</span>
+  </div>
+  `;
+  $outfit.append(outfitContent);
+}
+
 function executeSearch() {
   $venueDivs.forEach(venue => venue.empty());
   $weatherDivs.forEach(day => day.empty());
@@ -125,6 +143,7 @@ function executeSearch() {
   getCurrentForecast().then(location => {
     renderLocation(location);
     renderCurrent(location);
+    renderOutfit(location);
   });
   return false;
 }
