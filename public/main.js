@@ -114,18 +114,75 @@ function renderCurrent(location) {
   $currentWeather.append(currentContent);
 }
 
+
 function renderOutfit(location) {
-  let isRaining = location.current.condition.precip_in > 1;
-  console.log(isRaining);
-  let top;
-  if (isRaining) {
-    top = "Raincoat!";
-  } else {
-    top = "No raincoat."
+  let accessory, top, bottom, shoe;
+
+  // Quick references to current conditions
+  let isRaining = location.current.precip_in > 0;
+  let highTemp = location.forecast.forecastday["0"].day.maxtemp_f;
+  let lowTemp = location.forecast.forecastday["0"].day.mintemp_f;
+  let currentTemp = location.current.temp_f;
+
+  // Select which items of clothing for each category
+  function selectAccessory() {
+    if (highTemp > 80) {
+      accessory = 'Sun Hat';
+    } else if (isRaining < 45 && lowTemp > 32) {
+      accessory = 'Umbrella';
+    } else if (lowTemp <= 32) {
+      accessory = 'Beanie';
+    }
   }
+
+  function selectTop() {
+    if (isRaining && lowTemp > 32) {
+      top = 'Rain Jacket';
+    } else if (highTemp > 80) {
+      top = 'Tanktop';
+    } else if (highTemp > 65) {
+      top = 'T-Shirt';
+    } else if (highTemp > 50) {
+      top = 'Sweater';
+    } else if (lowTemp < 32) {
+      top = 'Winter Coat';
+    }
+  }
+
+  function selectBottom() {
+    if (highTemp > 80) {
+      bottom = 'Shorts';
+    } else if (currentTemp <= 35 && lowTemp < 32) {
+      bottom = 'Snow Pants';
+    } else {
+      bottom = 'Casual Pants';
+    }
+  }
+
+  function selectShoe() {
+    if (isRaining) {
+      shoe = 'Rain Boots';
+    } else if (!isRaining && lowTemp < 32) {
+      shoe = 'Winter Boots';
+    } else if (highTemp > 85) {
+      shoe = 'Sandals';
+    } else {
+      shoe = 'Sandals';
+    }
+  }
+
+  // set clothing variables
+  selectTop();
+  selectBottom();
+  selectAccessory();
+  selectShoe();
+
   let outfitContent =
   `<div class="outfit">
-    <span class="outfit-jacket">${top}</span>
+    <div class="">${accessory}</div>
+    <div class="">${top}</div>
+    <div class="">${bottom}</div>
+    <div class="">${shoe}</div>
   </div>
   `;
   $outfit.append(outfitContent);
@@ -136,6 +193,7 @@ function executeSearch() {
   $weatherDivs.forEach(day => day.empty());
   $destination.empty();
   $currentWeather.empty();
+  $outfit.empty();
   $container.css("visibility", "visible");
   getForecast().then(days => {
     renderForecast(days);
@@ -143,6 +201,7 @@ function executeSearch() {
   getCurrentForecast().then(location => {
     renderLocation(location);
     renderCurrent(location);
+
     renderOutfit(location);
   });
   return false;
