@@ -37,3 +37,13 @@ Shoes:
 - Casual Shoes
 - Winter / Snow Boots
 - Rainboots
+
+
+
+
+
+// What do next?
+1. Add way to create image paths
+2. Add images
+3. Create layout and design for outfit section
+4. Cleanup current weather shit
