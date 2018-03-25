@@ -128,6 +128,9 @@ main h1 {
   color: #444;
   font-size: 16px;
   margin: 20px auto;
+  position: relative;
+  width: 95%;
+  max-width: 500px;
 }
 
 .search-box .icon {
@@ -139,12 +142,12 @@ main h1 {
 
 .search-box input {
   height: 40px;
-  min-width: 350px;
   outline: none;
   background: none;
   border: none;
   padding-left: 10px;
   font-size: 1rem;
+  flex-grow: 1; /* what the fuck does this do? */
 }
 
 .search-box button {
@@ -168,6 +171,7 @@ main h1 {
   padding: 4px 5px;
   box-shadow: var(--shadow-1);
   transition: var(--trans);
+  min-width: 500px;
 }
 
 .search-box input:active,
@@ -227,54 +231,33 @@ form:focus-within {
   color: var(--dark-grey);
 }
 
-
-
-/* Venues */
-.venues {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-column-gap: var(--gutter);
-}
-
-.venue {
+/* Search Suggestions */
+.search-suggestions {
+  border-top: 1px solid var(--med-grey);
+  position: absolute;
+  top: 100%;
+  width: 100%;
   box-shadow: var(--shadow-1);
 }
 
-.venue-img {
-  width: 100%;
-  max-width: 100%;
+.search-list {
+  background: white;
 }
 
-.venue-details {
-  padding: 20px;
-}
-
-.venue-name {
-  text-align: center;
-  font-size: .8rem;
-  text-transform: uppercase;
-  letter-spacing: var(--letterspacing-sm);
-  font-weight: bold;
+.search-list-item {
+  text-align: left;
+  padding: 10px;
   color: var(--dark-grey);
-  margin-bottom: 20px;
 }
+
+.search-list-item:hover {
+  cursor: pointer;
+  background: var(--light-grey);
+}
+
 
 .container {
   max-width: 900px;
   margin: 20px auto;
   visibility: hidden;
 }
-
-
-.location-heading {
-  color: var(--brand-color);
-  font-weight: bold;
-  font-size: 1.5rem;
-}
-
-.location-subheading {
-  color: var(--med-grey);
-  letter-spacing: var(--letterspacing-sm);
-  font-size: 1rem;
-}
-

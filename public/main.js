@@ -201,9 +201,9 @@ function renderOutfit(location) {
 
 
 function renderSearchSuggestions(searchSuggestions) {
-  let searchSuggestionsContent = `<ul>`;
+  let searchSuggestionsContent = `<ul class="search-list">`;
   searchSuggestions.forEach(suggestion => {
-    searchSuggestionsContent += `<li>${suggestion.name}</li>`
+    searchSuggestionsContent += `<li class="search-list-item">${suggestion.name}</li>`;
   });
   searchSuggestionsContent += `</ul>`;
   $searchSuggestions.append(searchSuggestionsContent);
