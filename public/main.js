@@ -20,7 +20,7 @@ const $weatherDivs = [$("#weather1"), $("#weather2"), $("#weather3"), $("#weathe
 const weekDays = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 const $currentWeather = $('#current');
 const $outfit = $('#outfit');
-
+const $searchSuggestions = $('#search-suggestions');
 // **************************************
 // AJAX functions
 // **************************************
@@ -34,8 +34,8 @@ async function getSearchSuggestions() {
     if (response.ok) {
       let jsonResponse = await response.json();
       console.log(jsonResponse);
-      let searchResults = jsonResponse;
-      return searchResults;
+      let searchSuggestions = jsonResponse;
+      return searchSuggestions;
     }
   }
   catch(error) {
@@ -188,8 +188,34 @@ function renderOutfit(location) {
   $outfit.append(outfitContent);
 }
 
+
+// Render a list each time the user starts to search
+
+// Get the search results data in array form
+// Take the array and create list items for each suggestion
+// empty out the results with each new search
+
+// Add styling to the list items
+
+// When you click on a list item it executes the search
+
+
+function renderSearchSuggestions(searchSuggestions) {
+  let searchSuggestionsContent = `<ul>`;
+  searchSuggestions.forEach(suggestion => {
+    searchSuggestionsContent += `<li>${suggestion.name}</li>`
+  });
+  searchSuggestionsContent += `</ul>`;
+  $searchSuggestions.append(searchSuggestionsContent);
+}
+
+
+// **************************************
+// Trigger Render Functions
+// **************************************
+
+// Calls Search Functions
 function executeSearch() {
-  $venueDivs.forEach(venue => venue.empty());
   $weatherDivs.forEach(day => day.empty());
   $destination.empty();
   $currentWeather.empty();
@@ -201,14 +227,18 @@ function executeSearch() {
   getCurrentForecast().then(location => {
     renderLocation(location);
     renderCurrent(location);
-
     renderOutfit(location);
   });
   return false;
 }
 
+// Trigger Search Suggestions
 $input.on('input', function() {
-  getSearchSuggestions();
+  getSearchSuggestions().then(searchSuggestions => {
+    $searchSuggestions.empty();
+    renderSearchSuggestions(searchSuggestions);
+  });
 });
 
+// Trigger Search
 $submit.click(executeSearch);
