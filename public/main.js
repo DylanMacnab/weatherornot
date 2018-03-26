@@ -27,7 +27,6 @@ const $searchSuggestions = $('#search-suggestions');
 
 // Get Search Results
 async function getSearchSuggestions() {
-  // example url: http://api.apixu.com/v1/search.json?key=<YOUR_API_KEY>&q=lond
   const urlToFetch = searchUrl + apiKey + '&q=' + $input.val();
   try {
     let response = await fetch(urlToFetch);
@@ -203,11 +202,10 @@ function renderOutfit(location) {
 function renderSearchSuggestions(searchSuggestions) {
   let searchSuggestionsContent;
   searchSuggestions.forEach(suggestion => {
-    searchSuggestionsContent += `<option value="${suggestion.name}" class="search-list-item">`;
+    searchSuggestionsContent += `<option value="${suggestion.name.split(',')[0]}, ${suggestion.region}" class="search-list-item">`;
   });
   $searchSuggestions.append(searchSuggestionsContent);
 }
-
 
 // **************************************
 // Trigger Render Functions

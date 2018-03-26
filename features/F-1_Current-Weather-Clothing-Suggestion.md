@@ -2,7 +2,7 @@
 
 ## Description
 
-As a user I want to be able to search for current weather conditions when input a city or zipcode. In addition, I want to have a clothing recommendation for the day based on the current weather conditions.
+Show suggested outfit to go with the current weather of your location.
 
 Current Weather Should include:
 - Day of the week
