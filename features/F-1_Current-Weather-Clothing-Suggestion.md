@@ -42,7 +42,7 @@ Shoes:
 
 
 
-// What do next?
+TO DO:
 1. Add way to create image paths
 2. Add images
 3. Create layout and design for outfit section
