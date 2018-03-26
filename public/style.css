@@ -99,8 +99,9 @@ header {
 }
 
 /* LAYOUT */
-.row {
-  margin: 20px auto 60px;
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 
 /* HERO */
@@ -183,6 +184,12 @@ main h1 {
 form:focus-within {
   background: var(--white);
   box-shadow: var(--shadow-2);
+}
+
+
+/* WEATHER CURRENT */
+.weather-current {
+  padding: 40px 0;
 }
 
 
