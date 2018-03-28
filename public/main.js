@@ -188,17 +188,7 @@ function renderOutfit(location) {
 }
 
 
-// Render a list each time the user starts to search
-
-// Get the search results data in array form
-// Take the array and create list items for each suggestion
-// empty out the results with each new search
-
-// Add styling to the list items
-
-// When you click on a list item it executes the search
-
-
+// Render a datalist each time the user starts to search
 function renderSearchSuggestions(searchSuggestions) {
   let searchSuggestionsContent;
   searchSuggestions.forEach(suggestion => {
@@ -206,6 +196,21 @@ function renderSearchSuggestions(searchSuggestions) {
   });
   $searchSuggestions.append(searchSuggestionsContent);
 }
+
+function success(position) {
+  console.log('i ran!');
+  let location = position;
+  console.log(location);
+  document.getElementById('city').value = `${location.coords.latitude} ${location.coords.longitude}`;
+}
+
+function error(err) {
+  console.log('this is an eror.');
+  console.log(err);
+}
+
+// Geolocation on page load
+navigator.geolocation.getCurrentPosition(success, error);
 
 // **************************************
 // Trigger Render Functions
