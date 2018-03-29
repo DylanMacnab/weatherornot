@@ -3,6 +3,7 @@
 // **************************************
 
 const apiKey = 'f0e5ebc0c2354f20bc761611180103';
+const apiKeyMap = 'AIzaSyCTpMGvNM2o4i-lcsQaMPhdoQt1SC3SIIM';
 const forecastUrl = 'https://api.apixu.com/v1/forecast.json?key=';
 const currentUrl = 'https://api.apixu.com/v1/forecast.json?key=';
 const searchUrl = 'http://api.apixu.com/v1/search.json?key=';
@@ -21,6 +22,7 @@ const weekDays = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 const $currentWeather = $('#current');
 const $outfit = $('#outfit');
 const $searchSuggestions = $('#search-suggestions');
+
 // **************************************
 // AJAX functions
 // **************************************
@@ -74,6 +76,7 @@ async function getForecast() {
     console.log('forecast error:' + error);
   }
 };
+
 
 
 // **************************************
@@ -197,11 +200,19 @@ function renderSearchSuggestions(searchSuggestions) {
   $searchSuggestions.append(searchSuggestionsContent);
 }
 
+
+
+// Geolocation on page load
+
+function initMap() {
+  navigator.geolocation.getCurrentPosition(success, error);
+}
+
 function success(position) {
-  console.log('i ran!');
   let location = position;
-  console.log(location);
-  document.getElementById('city').value = `${location.coords.latitude} ${location.coords.longitude}`;
+  //document.getElementById('city').value = `${location.coords.latitude} ${location.coords.longitude}`;
+  var geocoder = new google.maps.Geocoder;
+  geocodeLatLng(geocoder, location);
 }
 
 function error(err) {
@@ -209,8 +220,38 @@ function error(err) {
   console.log(err);
 }
 
-// Geolocation on page load
-navigator.geolocation.getCurrentPosition(success, error);
+function geocodeLatLng(geocoder, location) {
+  let latlngStr = [location.coords.latitude, location.coords.longitude];
+  let latlng = {lat: parseFloat(latlngStr[0]), lng: parseFloat(latlngStr[1])};
+
+  geocoder.geocode({'location': latlng}, function(results, status) {
+    if (status === 'OK') {
+      console.log('reult:');
+      console.log(results);
+    }
+  });
+
+  // geocoder.geocode({'location': latlng}, function(results, status) {
+  //   if (status === 'OK') {
+  //     if (results[0]) {
+  //       map.setZoom(11);
+  //       var marker = new google.maps.Marker({
+  //         position: latlng,
+  //         map: map
+  //       });
+  //       infowindow.setContent(results[0].formatted_address);
+  //       infowindow.open(map, marker);
+  //     } else {
+  //       window.alert('No results found');
+  //     }
+  //   } else {
+  //     window.alert('Geocoder failed due to: ' + status);
+  //   }
+  // });
+}
+
+
+
 
 // **************************************
 // Trigger Render Functions
