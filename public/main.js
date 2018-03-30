@@ -1,5 +1,5 @@
 // **************************************
-// APIXU Info
+// API Info
 // **************************************
 
 const apiKey = 'f0e5ebc0c2354f20bc761611180103';
@@ -7,6 +7,8 @@ const apiKeyMap = 'AIzaSyCTpMGvNM2o4i-lcsQaMPhdoQt1SC3SIIM';
 const forecastUrl = 'https://api.apixu.com/v1/forecast.json?key=';
 const currentUrl = 'https://api.apixu.com/v1/forecast.json?key=';
 const searchUrl = 'http://api.apixu.com/v1/search.json?key=';
+const geocodeUrl = 'https://maps.googleapis.com/maps/api/geocode/json?key=';
+
 
 // **************************************
 // Page Elements
@@ -22,10 +24,43 @@ const weekDays = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 const $currentWeather = $('#current');
 const $outfit = $('#outfit');
 const $searchSuggestions = $('#search-suggestions');
+const $findMyLocation = $('#find-my-location');
 
 // **************************************
 // AJAX functions
 // **************************************
+
+//Get Geolocation City Name
+async function findCurrentCity() {
+  // check user current location
+  navigator.geolocation.getCurrentPosition(success, error);
+  // fetches geolocation data if location is known
+  async function success(location) {
+    let latlng = `${location.coords.latitude},${location.coords.longitude}`;
+    const urlToFetch = geocodeUrl + apiKeyMap + '&' + 'result_type=locality' + '&' + 'latlng=' + latlng;
+    try {
+      let response = await fetch(urlToFetch);
+      if (response.ok) {
+        let jsonResponse = await response.json();
+        console.log(jsonResponse);
+        let currentCity = jsonResponse;
+        console.log(currentCity);
+        console.log(currentCity.results[0].formatted_address);
+
+        // To Do: move this outside data request
+        $input.val(currentCity.results[0].formatted_address).focus().trigger(executeSearch());
+      }
+    }
+    catch(error) {
+      console.log('reverse google maps geocode error:' + error);
+    }
+  }
+  // log geolocation error
+  function error(err) {
+    console.log(err);
+  }
+}
+
 
 // Get Search Results
 async function getSearchSuggestions() {
@@ -34,7 +69,6 @@ async function getSearchSuggestions() {
     let response = await fetch(urlToFetch);
     if (response.ok) {
       let jsonResponse = await response.json();
-      console.log(jsonResponse);
       let searchSuggestions = jsonResponse;
       return searchSuggestions;
     }
@@ -52,7 +86,6 @@ async function getCurrentForecast() {
     if (response.ok) {
       let jsonResponse = await response.json();
       let location = jsonResponse;
-      console.log(location);
       return location;
     }
   }
@@ -76,7 +109,6 @@ async function getForecast() {
     console.log('forecast error:' + error);
   }
 };
-
 
 
 // **************************************
@@ -202,59 +234,8 @@ function renderSearchSuggestions(searchSuggestions) {
 
 
 
-// Geolocation on page load
-
-function initMap() {
-  navigator.geolocation.getCurrentPosition(success, error);
-}
-
-function success(position) {
-  let location = position;
-  //document.getElementById('city').value = `${location.coords.latitude} ${location.coords.longitude}`;
-  var geocoder = new google.maps.Geocoder;
-  geocodeLatLng(geocoder, location);
-}
-
-function error(err) {
-  console.log('this is an eror.');
-  console.log(err);
-}
-
-function geocodeLatLng(geocoder, location) {
-  let latlngStr = [location.coords.latitude, location.coords.longitude];
-  let latlng = {lat: parseFloat(latlngStr[0]), lng: parseFloat(latlngStr[1])};
-
-  geocoder.geocode({'location': latlng}, function(results, status) {
-    if (status === 'OK') {
-      console.log('reult:');
-      console.log(results);
-    }
-  });
-
-  // geocoder.geocode({'location': latlng}, function(results, status) {
-  //   if (status === 'OK') {
-  //     if (results[0]) {
-  //       map.setZoom(11);
-  //       var marker = new google.maps.Marker({
-  //         position: latlng,
-  //         map: map
-  //       });
-  //       infowindow.setContent(results[0].formatted_address);
-  //       infowindow.open(map, marker);
-  //     } else {
-  //       window.alert('No results found');
-  //     }
-  //   } else {
-  //     window.alert('Geocoder failed due to: ' + status);
-  //   }
-  // });
-}
-
-
-
-
 // **************************************
-// Trigger Render Functions
+// Event Handlers and Rendering
 // **************************************
 
 // Calls Search Functions
@@ -281,6 +262,12 @@ $input.on('input', function() {
     $searchSuggestions.empty();
     renderSearchSuggestions(searchSuggestions);
   });
+});
+
+// Trigger Location
+$findMyLocation.on('click', function() {
+  console.log('attempting to find location');
+  findCurrentCity();
 });
 
 // Trigger Search

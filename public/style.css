@@ -268,3 +268,9 @@ form:focus-within {
   margin: 20px auto;
   visibility: hidden;
 }
+
+
+/* Shame CSS */
+.find-my-location {
+  cursor: pointer;
+}
