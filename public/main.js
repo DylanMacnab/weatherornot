@@ -42,12 +42,13 @@ async function findCurrentCity() {
       let response = await fetch(urlToFetch);
       if (response.ok) {
         let jsonResponse = await response.json();
-        console.log(jsonResponse);
         let currentCity = jsonResponse.results[0].formatted_address;
-        // Set Cookie to remember location
-        // To Do: move this outside data request
-        setCookie(city, currentCity);
-        checkCookie();
+        console.log('current city set');
+        saveLocation(currentCity);
+        updateTitle(localStorage.getItem('city'));
+
+        console.log('location saved');
+
         $input.val(currentCity).focus().trigger(executeSearch());
       }
     }
@@ -224,43 +225,11 @@ function renderOutfit(location) {
 
 
 // **************************************
-// Cookies
+// Local Storage
 // **************************************
-
-function setCookie(cname, cvalue /*, exdays*/) {
-    // var d = new Date();
-    // d.setTime(d.getTime() + (exdays*24*60*60*1000));
-    // var expires = "expires="+ d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + "expires=Thu, 18 Dec 2020 12:00:00 UTC;" + "; path=/";
+function saveLocation(place) {
+  localStorage.setItem('city', place);
 }
-
-function getCookie(cname) {
-  var name = cname + "=";
-  var decodedCookie = decodeURIComponent(document.cookie);
-  var ca = decodedCookie.split(';');
-  for(var i = 0; i <ca.length; i++) {
-      var c = ca[i];
-      while (c.charAt(0) == ' ') {
-          c = c.substring(1);
-      }
-      if (c.indexOf(name) == 0) {
-          return c.substring(name.length, c.length);
-      }
-  }
-  return "";
-}
-
-function checkCookie() {
-  var city = getCookie("city");
-  if (city != "") {
-    console.log('there is a cookie');
-    alert("hello from " + city);
-  }
-  console.log('checked for cookie');
-}
-
-
-
 
 // Render Title
 function updateTitle(cityName) {
@@ -290,14 +259,17 @@ function executeSearch() {
   $currentWeather.empty();
   $outfit.empty();
   $container.css("visibility", "visible");
-  getForecast().then(days => {
-    renderForecast(days);
-  });
+
   getCurrentForecast().then(location => {
     renderLocation(location);
     renderCurrent(location);
     renderOutfit(location);
   });
+
+  getForecast().then(days => {
+    renderForecast(days);
+  });
+  
   return false;
 }
 
