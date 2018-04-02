@@ -9,7 +9,6 @@ const currentUrl = 'https://api.apixu.com/v1/forecast.json?key=';
 const searchUrl = 'http://api.apixu.com/v1/search.json?key=';
 const geocodeUrl = 'https://maps.googleapis.com/maps/api/geocode/json?key=';
 
-
 // **************************************
 // Page Elements
 // **************************************
@@ -25,6 +24,7 @@ const $currentWeather = $('#current');
 const $outfit = $('#outfit');
 const $searchSuggestions = $('#search-suggestions');
 const $findMyLocation = $('#find-my-location');
+const $cityTitle = $('#my-city');
 
 // **************************************
 // AJAX functions
@@ -43,12 +43,12 @@ async function findCurrentCity() {
       if (response.ok) {
         let jsonResponse = await response.json();
         console.log(jsonResponse);
-        let currentCity = jsonResponse;
-        console.log(currentCity);
-        console.log(currentCity.results[0].formatted_address);
-
+        let currentCity = jsonResponse.results[0].formatted_address;
+        // Set Cookie to remember location
         // To Do: move this outside data request
-        $input.val(currentCity.results[0].formatted_address).focus().trigger(executeSearch());
+        setCookie(city, currentCity);
+        checkCookie();
+        $input.val(currentCity).focus().trigger(executeSearch());
       }
     }
     catch(error) {
@@ -223,6 +223,52 @@ function renderOutfit(location) {
 }
 
 
+// **************************************
+// Cookies
+// **************************************
+
+function setCookie(cname, cvalue /*, exdays*/) {
+    // var d = new Date();
+    // d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    // var expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + "expires=Thu, 18 Dec 2020 12:00:00 UTC;" + "; path=/";
+}
+
+function getCookie(cname) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i <ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+      }
+  }
+  return "";
+}
+
+function checkCookie() {
+  var city = getCookie("city");
+  if (city != "") {
+    console.log('there is a cookie');
+    alert("hello from " + city);
+  }
+  console.log('checked for cookie');
+}
+
+
+
+
+// Render Title
+function updateTitle(cityName) {
+  $cityTitle.text(cityName);
+}
+
+
+
 // Render a datalist each time the user starts to search
 function renderSearchSuggestions(searchSuggestions) {
   let searchSuggestionsContent;
@@ -231,7 +277,6 @@ function renderSearchSuggestions(searchSuggestions) {
   });
   $searchSuggestions.append(searchSuggestionsContent);
 }
-
 
 
 // **************************************
@@ -269,6 +314,8 @@ $findMyLocation.on('click', function() {
   console.log('attempting to find location');
   findCurrentCity();
 });
+
+
 
 // Trigger Search
 $submit.click(executeSearch);
