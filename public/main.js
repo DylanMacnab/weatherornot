@@ -43,12 +43,7 @@ async function findCurrentCity() {
       if (response.ok) {
         let jsonResponse = await response.json();
         let currentCity = jsonResponse.results[0].formatted_address;
-        console.log('current city set');
         saveLocation(currentCity);
-        updateTitle(localStorage.getItem('city'));
-
-        console.log('location saved');
-
         $input.val(currentCity).focus().trigger(executeSearch());
       }
     }
@@ -115,6 +110,12 @@ async function getForecast() {
 // **************************************
 // Render functions
 // **************************************
+
+function renderTitle(location) {
+  if ($input.val() !== '') {
+    $cityTitle.text(location);
+  }
+}
 
 function renderLocation(location) {
   $destination.append(`<h2 class="location-heading">${location.location.name}<br><span class="location-subheading">${location.location.region}<span></h2>`);
@@ -231,11 +232,11 @@ function saveLocation(place) {
   localStorage.setItem('city', place);
 }
 
-// Render Title
-function updateTitle(cityName) {
-  $cityTitle.text(cityName);
-}
-
+// if (localStorage.getItem("city") !== null) {
+//   console.log('local storage for city exists!');
+// } else if (localStorage.getItem("city") === null) {
+//   console.log('local storage for city does not exist.');
+// }
 
 
 // Render a datalist each time the user starts to search
@@ -259,8 +260,8 @@ function executeSearch() {
   $currentWeather.empty();
   $outfit.empty();
   $container.css("visibility", "visible");
-
   getCurrentForecast().then(location => {
+    renderTitle($input.val());
     renderLocation(location);
     renderCurrent(location);
     renderOutfit(location);
@@ -269,7 +270,6 @@ function executeSearch() {
   getForecast().then(days => {
     renderForecast(days);
   });
-  
   return false;
 }
 
@@ -288,6 +288,12 @@ $findMyLocation.on('click', function() {
 });
 
 
-
 // Trigger Search
 $submit.click(executeSearch);
+
+// Auto Search Location when city is saved in location storage
+$(document).ready( function() {
+  if (localStorage.getItem('city') !== null) {
+    $input.val(localStorage.getItem('city')).focus().trigger(executeSearch());
+  }
+});
