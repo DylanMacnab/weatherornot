@@ -25,6 +25,7 @@ const $outfit = $('#outfit');
 const $searchSuggestions = $('#search-suggestions');
 const $findMyLocation = $('#find-my-location');
 const $cityTitle = $('#my-city');
+const $recentSearches = $('#recent-searches');
 
 // **************************************
 // AJAX functions
@@ -110,6 +111,16 @@ async function getForecast() {
 // **************************************
 // Render functions
 // **************************************
+
+function renderRecentSearchs() {
+  let recentSearches = JSON.parse(localStorage.getItem("recentLocations"));
+  let recentSearchesContent = `<ul>`;
+  recentSearches.forEach(search => {
+    recentSearchesContent += `<li>${search}</li>`;
+  });
+  recentSearchesContent += `</ul>`;
+  $recentSearches.append(recentSearchesContent);
+}
 
 function renderTitle(location) {
   if ($input.val() !== '') {
@@ -225,20 +236,6 @@ function renderOutfit(location) {
 }
 
 
-// **************************************
-// Local Storage
-// **************************************
-function saveLocation(place) {
-  localStorage.setItem('city', place);
-}
-
-// if (localStorage.getItem("city") !== null) {
-//   console.log('local storage for city exists!');
-// } else if (localStorage.getItem("city") === null) {
-//   console.log('local storage for city does not exist.');
-// }
-
-
 // Render a datalist each time the user starts to search
 function renderSearchSuggestions(searchSuggestions) {
   let searchSuggestionsContent;
@@ -246,6 +243,30 @@ function renderSearchSuggestions(searchSuggestions) {
     searchSuggestionsContent += `<option value="${suggestion.name.split(',')[0]}, ${suggestion.region}" class="search-list-item">`;
   });
   $searchSuggestions.append(searchSuggestionsContent);
+}
+
+
+// **************************************
+// Local Storage
+// **************************************
+function saveLocation(place) {
+  localStorage.setItem('city', place);
+}
+
+function updateRecentLocations(location) {
+  // check for recent searches in local storage
+  let recentLocations;
+  if (localStorage.getItem("recentLocations") !== null) {
+    recentLocations = JSON.parse(localStorage.getItem("recentLocations"));
+    console.log("recent locations exists");
+  } else {
+    recentLocations = [];
+    console.log("recent locations doesn't exist");
+  }
+  // console.log(location.location.name);
+  recentLocations.push(location.location.name);
+  // console.log(recentLocations);
+  localStorage.setItem('recentLocations', JSON.stringify(recentLocations));
 }
 
 
@@ -259,17 +280,22 @@ function executeSearch() {
   $destination.empty();
   $currentWeather.empty();
   $outfit.empty();
+  $recentSearches.empty();
   $container.css("visibility", "visible");
   getCurrentForecast().then(location => {
     renderTitle($input.val());
     renderLocation(location);
     renderCurrent(location);
     renderOutfit(location);
+    updateRecentLocations(location);
   });
 
   getForecast().then(days => {
     renderForecast(days);
   });
+
+  renderRecentSearchs();
+
   return false;
 }
 
