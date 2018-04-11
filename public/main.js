@@ -113,6 +113,10 @@ async function getForecast() {
 // **************************************
 
 function renderRecentSearchs() {
+  if (localStorage.getItem("recentLocations") === null) {
+    return;
+  }
+
   let recentSearches = JSON.parse(localStorage.getItem("recentLocations"));
   let recentSearchesContent = `<ul>`;
   recentSearches.forEach(search => {
@@ -258,15 +262,20 @@ function updateRecentLocations(location) {
   let recentLocations;
   if (localStorage.getItem("recentLocations") !== null) {
     recentLocations = JSON.parse(localStorage.getItem("recentLocations"));
-    console.log("recent locations exists");
   } else {
     recentLocations = [];
-    console.log("recent locations doesn't exist");
   }
-  // console.log(location.location.name);
-  recentLocations.push(location.location.name);
-  // console.log(recentLocations);
-  localStorage.setItem('recentLocations', JSON.stringify(recentLocations));
+  /*
+  Prevents duplicate searches from being added to recent searches local storage.
+  Also limits the number of saved recent searches.
+  */
+  if (!recentLocations.includes(location.location.name)) {
+    if (recentLocations.length > 3) {
+      recentLocations.shift();
+    }
+    recentLocations.push(location.location.name);
+    localStorage.setItem('recentLocations', JSON.stringify(recentLocations));
+  }
 }
 
 
