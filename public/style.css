@@ -187,6 +187,20 @@ form:focus-within {
 }
 
 
+/* Recent Search */
+.recent-searches {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.recent-search-item {
+  padding: 20px;
+  margin: 10px;
+  box-shadow: var(--shadow-1);
+  flex-basis: 300px;
+}
+
 /* WEATHER CURRENT */
 .weather-current {
   padding: 40px 0;

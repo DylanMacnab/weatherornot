@@ -11,8 +11,8 @@
   <body>
 
     <main>
+      
       <h1 id="my-city">Weather</h1>
-
       <a id="find-my-location" class="find-my-location">
         <h2 style="font-size: 15px; text-decoration: underline; margin-top: 10px;">Find My Location</h2>
       </a>
@@ -22,9 +22,7 @@
           <input type="text" list="search-suggestions" id="city" placeholder="Enter your destination (city or zipcode)">
           <button id="button" type="submit">Search</button>
         </form>
-
         <datalist id="search-suggestions" class="search-suggestions"></datalist>
-
       </div>
 
     </main>
@@ -57,7 +55,8 @@
         <div class="weather-card" id="weather7"></div>
       </section>
 
-      <section style="padding: 40px 0;" id="recent-searches"></section>
+      <h2 class="section-title" style="margin-top: 60px;">Recent Searches</h2>
+      <section id="recent-searches"></section>
 
       <footer>
         <p>Designed and coded by <a href="http://dylanmacnab.com">Dylan Macnab</a></p>

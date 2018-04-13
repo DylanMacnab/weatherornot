@@ -107,23 +107,49 @@ async function getForecast() {
   }
 };
 
+// Get Current Weather
+async function getCondition(place) {
+  const urlToFetch = currentUrl + apiKey + '&q=' + place;
+  try {
+    let response = await fetch(urlToFetch);
+    if (response.ok) {
+      let jsonResponse = await response.json();
+      let location = jsonResponse;
+      return location;
+    }
+  }
+  catch(error) {
+    console.log('forecast error:' + error);
+  }
+}
+
 
 // **************************************
 // Render functions
 // **************************************
 
-function renderRecentSearchs() {
-  if (localStorage.getItem("recentLocations") === null) {
-    return;
-  }
+async function renderRecentSearchs() {
+  // Check for recent searches and render list
+  if (localStorage.getItem("recentLocations") !== null) {
+    let recentSearches = JSON.parse(localStorage.getItem("recentLocations"));
 
-  let recentSearches = JSON.parse(localStorage.getItem("recentLocations"));
-  let recentSearchesContent = `<ul>`;
-  recentSearches.forEach(search => {
-    recentSearchesContent += `<li>${search}</li>`;
-  });
-  recentSearchesContent += `</ul>`;
-  $recentSearches.append(recentSearchesContent);
+    let recentSearchesContent = `<ul class="recent-searches">`;
+
+    recentSearches.forEach(search => {
+      getCondition(search).then(location => {
+
+        recentSearchesContent +=
+        `<li class="recent-search-item">
+          <span>${location.current.temp_f}</span>
+          <span>${search}</span>
+        </li>`;
+        console.log(recentSearchesContent);
+
+      });
+    });
+    recentSearchesContent += `</ul>`;
+    $recentSearches.append(recentSearchesContent);
+  };
 }
 
 function renderTitle(location) {
